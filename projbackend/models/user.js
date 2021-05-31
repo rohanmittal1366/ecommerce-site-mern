@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
 const crypto = require("crypto");
-const { v4: uuidv4 } = require("uuid");
+const uuidv1 = require("uuid/v1");
 
-const userSchema = new mongoose.Schema(
+var userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -11,28 +11,27 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
-    lastName: {
+    lastname: {
       type: String,
-      required: false,
       maxlength: 32,
       trim: true,
     },
 
     email: {
       type: String,
+      trim: true,
       required: true,
-      maxlength: 20,
       unique: true,
-      trim: true,
     },
 
-    userInfo: {
+    userinfo: {
       type: String,
       trim: true,
     },
 
-    encry_Password: {
+    encry_password: {
       type: String,
+      required: true,
     },
 
     salt: String,
@@ -47,21 +46,26 @@ const userSchema = new mongoose.Schema(
       default: [],
     },
   },
+
   { timestamps: true }
 );
 
 userSchema
-  .virtual("Password")
-  .set(function (Password) {
-    this._Password = Password;
-    this.salt = uuidv4();
-    this.encry_Password = this.securePassword(password);
+  .virtual("password")
+  .set(function (password) {
+    this._password = password;
+    this.salt = uuidv1();
+    this.encry_password = this.securePassword(password);
   })
   .get(function () {
-    return this._Password;
+    return this._password;
   });
 
 userSchema.methods = {
+  authenticate: function (plainpassword) {
+    return this.securePassword(plainpassword) === this.encry_password;
+  },
+
   securePassword: function (plainpassword) {
     if (!plainpassword) return "";
     try {
@@ -72,10 +76,6 @@ userSchema.methods = {
     } catch (err) {
       return "";
     }
-  },
-
-  authenticate: function (plainpassword) {
-    return this.securePassword(plainpassword) === this.encry_Password;
   },
 };
 
