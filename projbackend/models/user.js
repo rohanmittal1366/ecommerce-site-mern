@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const crypto = require("crypto");
-const uuidv1 = require("uuid/v1");
+const { v4: uuidv4 } = require("uuid");
 
 const userSchema = new mongoose.Schema(
   {
@@ -10,33 +10,38 @@ const userSchema = new mongoose.Schema(
       maxlength: 32,
       trim: true,
     },
-    lastname: {
+
+    lastName: {
       type: String,
+      required: false,
       maxlength: 32,
       trim: true,
     },
+
     email: {
       type: String,
-      trim: true,
       required: true,
+      maxlength: 20,
       unique: true,
+      trim: true,
     },
 
-    userinfo: {
+    userInfo: {
       type: String,
       trim: true,
     },
 
-    encry_password: {
+    encry_Password: {
       type: String,
-      required: true,
     },
 
     salt: String,
+
     role: {
-      type: String,
+      type: Number,
       default: 0,
     },
+
     purchases: {
       type: Array,
       default: [],
@@ -46,31 +51,31 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema
-  .virtual("password")
-  .set(function (password) {
-    this._password = password;
-    this.salt = uuidv1;
-    this.encry_password = this.securePassword(password);
+  .virtual("Password")
+  .set(function (Password) {
+    this._Password = Password;
+    this.salt = uuidv4();
+    this.encry_Password = this.securePassword(password);
   })
   .get(function () {
-    return this._password;
+    return this._Password;
   });
 
 userSchema.methods = {
-  authenticate: function (plainpassword) {
-    return this.securePassword(plainpassword) === this.encry_password;
-  },
-
   securePassword: function (plainpassword) {
     if (!plainpassword) return "";
     try {
       return crypto
         .createHmac("sha256", this.salt)
-        .updtae(plainpassword)
+        .update(plainpassword)
         .digest("hex");
     } catch (err) {
       return "";
     }
+  },
+
+  authenticate: function (plainpassword) {
+    return this.securePassword(plainpassword) === this.encry_Password;
   },
 };
 
