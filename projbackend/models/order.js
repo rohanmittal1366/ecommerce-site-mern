@@ -12,12 +12,12 @@ const ProductCartSchema = new mongoose.Schema({
   price: Number,
 });
 
-const ProductCart = mongoose.model("ProductCartSchema", OrderSchema);
+const ProductCart = mongoose.model("ProductCartSchema", ProductCartSchema);
 
 const OrderSchema = new mongoose.Schema(
   {
     products: [ProductCartSchema],
-    transaction_id: {},
+    transaction_Id: {},
     amount: {
       type: Number,
     },
