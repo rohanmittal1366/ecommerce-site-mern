@@ -8,6 +8,7 @@ const {
   updateProduct,
   removeProduct,
   getAllProducts,
+  getAllUniqueCategories,
 } = require("../controllers/product");
 const { getUserById } = require("../controllers/user");
 const router = express.Router();
@@ -52,5 +53,7 @@ router.put(
 
 //listing route
 router.get("/products", getAllProducts);
+
+router.get("/products/categories", getAllUniqueCategories);
 
 module.exports = router;

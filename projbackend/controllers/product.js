@@ -133,8 +133,9 @@ exports.removeProduct = (req, res) => {
   });
 };
 
-// product listing
 exports.getAllProducts = (req, res) => {
+  // product listing
+
   let limit = req.query.limit ? parseInt(req.query.limit) : 8;
   let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
 
@@ -153,6 +154,17 @@ exports.getAllProducts = (req, res) => {
       product.updatedAt = undefined;
       res.json(products);
     });
+};
+
+exports.getAllUniqueCategories = (req, res) => {
+  Product.distinct("category", {}, (err, category) => {
+    if (err) {
+      return res.status(400).json({
+        error: "No category found",
+      });
+    }
+    res.json(category);
+  });
 };
 
 exports.updateStock = (req, res, next) => {
