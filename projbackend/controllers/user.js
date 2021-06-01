@@ -22,13 +22,28 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
-exports.getAllUser = (req, res) => {
-  User.find().exec((err, users) => {
-    if (err || !users) {
-      return res.status(400).json({
-        error: "No user was found in DB",
-      });
+exports.updateUser = (req, res) => {
+  console.log("1st ", req.profile.name);
+  User.findByIdAndUpdate(
+    { _id: req.profile._id },
+    { $set: req.body },
+    {
+      new: true,
+      useFindAndModify: false,
+    },
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({
+          error: "You are not authorized to update this user",
+        });
+      }
+      console.log("2nd", user.name);
+      user.salt = undefined;
+      user.encry_password = undefined;
+      user.createdAt = undefined;
+      user.updatedAt = undefined;
+      res.json(user);
     }
-    res.json(users);
-  });
+  );
 };
