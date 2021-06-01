@@ -1,4 +1,6 @@
 const User = require("../models/user");
+const uuidv4 = require("uuid/v4");
+const crypto = require("crypto");
 
 exports.getUserById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
@@ -23,7 +25,7 @@ exports.getUser = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
-  console.log("1st ", req.profile.name);
+  //console.log("1st ", req.profile.name);
   User.findByIdAndUpdate(
     { _id: req.profile._id },
     { $set: req.body },
@@ -38,7 +40,42 @@ exports.updateUser = (req, res) => {
           error: "You are not authorized to update this user",
         });
       }
-      console.log("2nd", user.name);
+      //console.log("2nd", user.name);
+      user.salt = undefined;
+      user.encry_password = undefined;
+      user.createdAt = undefined;
+      user.updatedAt = undefined;
+      res.json(user);
+    }
+  );
+};
+
+const securedPassword = (user) => {
+  user.salt = uuidv4();
+  user.encry_password = crypto
+    .createHmac("sha256", user.salt)
+    .update(user.password)
+    .digest("hex");
+  return user;
+};
+
+exports.updateUser = (req, res) => {
+  //console.log("1st ", req.profile.name);
+  User.findByIdAndUpdate(
+    { _id: req.profile._id },
+    { $set: securedPassword(req.body) },
+    {
+      new: true,
+      useFindAndModify: false,
+    },
+    (err, user) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({
+          error: "You are not authorized to update this user",
+        });
+      }
+
       user.salt = undefined;
       user.encry_password = undefined;
       user.createdAt = undefined;
