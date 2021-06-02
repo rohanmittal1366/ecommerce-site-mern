@@ -6,6 +6,7 @@ const {
   getOrderById,
   createOrder,
   updateStatus,
+  getAllorders,
 } = require("../controllers/order");
 
 const { updateStock } = require("../controllers/product");
