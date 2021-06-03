@@ -6,7 +6,7 @@ import Base from "./Base";
 function Home() {
   console.log("API IS", API);
   return (
-    <Base title="Home Page">
+    <Base title="Home Page" discription="Welcome to Online shopping site">
       <div className="row">
         <div className="col-4">
           <button className="btn btn-success">Test</button>
