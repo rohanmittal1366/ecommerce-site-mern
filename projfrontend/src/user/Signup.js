@@ -36,6 +36,7 @@ const Signup = () => {
             error: "",
             success: true,
             password: "",
+            // lastname: "goyal",
           });
         }
       })
