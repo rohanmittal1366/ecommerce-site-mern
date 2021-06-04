@@ -5,8 +5,8 @@ import Base from "../core/Base";
 
 const Signin = () => {
   const [values, setValues] = useState({
-    email: "",
-    password: "",
+    email: "rohanmittal1366@gmail.com",
+    password: "Rohan@123",
     error: "",
     loading: false,
     didRedirect: false,
@@ -125,7 +125,7 @@ const Signin = () => {
       {errorMesssage()}
       {signInForm()}
       {performRedirect()}
-      <p className="text-white text-center">{JSON.stringify(values)}</p>
+      {/* <p className="text-white text-center">{JSON.stringify(values)}</p> */}
     </Base>
   );
 };

@@ -56,7 +56,7 @@ export const signout = (next) => {
 
 // t0 check it it logined or not
 export const authenticated = () => {
-  if (typeof window !== "undefined") {
+  if (typeof window == "undefined") {
     return false;
   }
   if (localStorage.getItem("jwt")) {
