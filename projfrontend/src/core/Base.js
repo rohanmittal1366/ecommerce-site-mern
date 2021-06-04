@@ -9,6 +9,7 @@ const Base = ({
 }) => (
   <div>
     <NavigationBar />
+    {/* Component for header */}
     <div className="container-fluid">
       <div className=" py-2 bg-dark text-white text-center">
         <h2 className=" display-4">{title}</h2>
@@ -16,6 +17,8 @@ const Base = ({
       </div>
       <div className={className}>{children}</div>
     </div>
+
+    {/* Component for footer  */}
     <footer className="footer bg-dark mt-auto py-3">
       <div className="container-fluid bg-success text-white text-center py-2">
         <h4>If you got any questions, feel free to reach out!</h4>

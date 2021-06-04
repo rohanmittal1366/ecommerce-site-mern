@@ -12,12 +12,15 @@ const Signup = () => {
     success: false,
   });
 
+  // destructure the values
   const { name, email, password, error, success } = values;
 
+  // change in event or name then this method call
   const handleChange = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
 
+  // submit button click then onsubmit method fired
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false });
@@ -44,6 +47,7 @@ const Signup = () => {
       <div className="row">
         <div className="col-md-6 offset-sm-3 text-left">
           <form>
+            {/* Component for name */}
             <div className="form-group">
               <label className="text-light">Name</label>
               <input
@@ -53,6 +57,8 @@ const Signup = () => {
                 value={name}
               />
             </div>
+
+            {/* Component for email */}
             <div className="form-group">
               <label className="text-light">Email</label>
               <input
@@ -62,6 +68,8 @@ const Signup = () => {
                 value={email}
               />
             </div>
+
+            {/* Component for password */}
             <div className="form-group">
               <label className="text-light">Password</label>
 
@@ -72,6 +80,8 @@ const Signup = () => {
                 value={password}
               />
             </div>
+
+            {/* Component for submit button */}
             <button onClick={onSubmit} className="btn btn-success btn-block">
               Submit
             </button>
@@ -81,6 +91,7 @@ const Signup = () => {
     );
   };
 
+  // to print the message that user signup successfully
   const successMesssage = () => {
     return (
       <div className="row">
@@ -97,6 +108,7 @@ const Signup = () => {
     );
   };
 
+  // to print error
   const errorMesssage = () => {
     return (
       <div className="row">
