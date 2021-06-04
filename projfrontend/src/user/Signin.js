@@ -43,13 +43,11 @@ const Signin = () => {
 
   // check whether the user is admin or not and redirect it to that page
   const performRedirect = () => {
-    // redurection
-
     if (didRedirect) {
       if (user && user.role === 1) {
-        return <p>redirect to admin </p>;
+        return <Redirect to="/admin/dashboard" />;
       } else {
-        return <p>redirect to user dahsboard</p>;
+        return <Redirect to="/user/dashboard" />;
       }
     }
     if (authenticated()) {
