@@ -5,8 +5,8 @@ import Base from "../core/Base";
 
 const Signin = () => {
   const [values, setValues] = useState({
-    email: "rohanmittal1366@gmail.com",
-    password: "Rohan@123",
+    email: "badhunter5@gmail.com",
+    password: "Badhunt@123",
     error: "",
     loading: false,
     didRedirect: false,

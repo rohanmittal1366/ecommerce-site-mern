@@ -17,13 +17,19 @@ const Signup = () => {
 
   // change in event or name then this method call
   const handleChange = (name) => (event) => {
-    setValues({ ...values, error: false, [name]: event.target.value });
+    setValues({
+      ...values,
+      error: false,
+      [name]: event.target.value,
+    });
   };
 
   // submit button click then onsubmit method fired
   const onSubmit = (event) => {
     event.preventDefault();
+
     setValues({ ...values, error: false });
+
     signup({ name, email, password })
       .then((data) => {
         if (data.error) {
@@ -36,7 +42,6 @@ const Signup = () => {
             error: "",
             success: true,
             password: "",
-            // lastname: "goyal",
           });
         }
       })

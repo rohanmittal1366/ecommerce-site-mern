@@ -48,8 +48,7 @@ const AdminDashBoard = () => {
         <ul className="list-group">
           <li className="list-group-item">
             <span className="badge badge-success mr-2">Name :</span>
-            {name}
-            {lastname}
+            {name} {lastname}
           </li>
           <li className="list-group-item">
             <span className="badge badge-success mr-2">Email :</span>
