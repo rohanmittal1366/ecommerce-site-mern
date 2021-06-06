@@ -44,11 +44,14 @@ const AddCategory = () => {
     });
   };
 
+  // display message after created category
   const successMessage = () => {
     if (success) {
       return <h4 className="text-success">Category created successfully</h4>;
     }
   };
+
+  // display error message
   const warningMessage = () => {
     if (error) {
       return <h4 className="text-danger">Failed to create category</h4>;
