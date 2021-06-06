@@ -10,15 +10,20 @@ const AdminDashBoard = () => {
 
   const adminLeftSide = () => {
     return (
-      <div className="card">
+      <div className="card ">
         <h4 className="card-header bg-dark text-white">Admin Naviagtion</h4>
-        <ul className="list-group">
+        <ul className="list-group pre-scrollable">
           <li className="list-group-item">
             <Link
               to="/admin/create/category"
               className="nav-link text-success "
             >
               Create Categories
+            </Link>
+          </li>
+          <li className="list-group-item">
+            <Link to="/admin/categories" className="nav-link text-success ">
+              Manage Categories
             </Link>
           </li>
           <li className="list-group-item">
