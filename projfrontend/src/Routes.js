@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
 import ManageCategories from "./admin/ManageCategories";
+import ManageProducts from "./admin/ManageProducts";
 import AdminRoutes from "./auth/helper/AdminRoutes";
 import PrivateRoutes from "./auth/helper/PrivateRoutes";
 import Home from "./core/Home";
@@ -35,6 +36,7 @@ const Routes = () => {
           exact
           component={AddProduct}
         />
+        <AdminRoutes path="/admin/products" exact component={ManageProducts} />
       </Switch>
     </BrowserRouter>
   );

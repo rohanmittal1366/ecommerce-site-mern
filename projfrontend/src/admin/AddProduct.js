@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { authenticated } from "../auth/helper";
 import Base from "../core/Base";
 import { allCategory, createProduct } from "./helper/adminapicall";
@@ -52,6 +52,7 @@ function AddProduct() {
 
   useEffect(() => {
     preload();
+    // performRedirect();
   }, []);
 
   // call function on click submit button
@@ -59,25 +60,23 @@ function AddProduct() {
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
-    createProduct(user._id, token, formData)
-      .then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error });
-        } else {
-          setValues({
-            ...values,
-            name: "",
-            discription: "",
-            price: "",
-            photo: "",
-            stock: "",
-            loading: true,
-            getaRedirect: true,
-            createdProduct: data.name,
-          });
-        }
-      })
-      .then();
+    createProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          discription: "",
+          price: "",
+          photo: "",
+          stock: "",
+          loading: true,
+          getaRedirect: true,
+          createdProduct: data.name,
+        });
+      }
+    });
   };
 
   // handle the change in fields of the form
@@ -96,6 +95,14 @@ function AddProduct() {
       <h4>{createdProduct} created successfully</h4>
     </div>
   );
+
+  const performRedirect = () => {
+    if (getaRedirect) {
+      setTimeout(() => {
+        return <Redirect to="/admin/dashboard" />;
+      }, 2000);
+    }
+  };
 
   // to print error
   const errorMessage = () => {

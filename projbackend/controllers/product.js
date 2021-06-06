@@ -5,7 +5,7 @@ const fs = require("fs");
 
 exports.getProductById = (req, res, next, id) => {
   Product.findById(id)
-    .populate("category")
+    .populate("product")
     .exec((err, product) => {
       if (err || !product) {
         return res.status(400).json({
@@ -130,6 +130,7 @@ exports.removeProduct = (req, res) => {
     }
     res.json({
       message: "product is deleted sucessfully",
+      deletedproduct,
     });
   });
 };
@@ -142,18 +143,19 @@ exports.getAllProducts = (req, res) => {
 
   Product.find()
     .select("-photo")
-    .populate("category")
-    .sort([[sortBy, "acs"]])
+    .populate("product")
+    .sort([[sortBy, "asc"]])
     .limit(limit)
     .exec((err, product) => {
       if (err) {
+        console.log(err);
         return res.status(400).json({
           error: "No product found",
         });
       }
       product.createdAt = undefined;
       product.updatedAt = undefined;
-      res.json(products);
+      res.json(product);
     });
 };
 
