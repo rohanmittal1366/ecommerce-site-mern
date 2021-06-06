@@ -54,6 +54,7 @@ const AddCategory = () => {
   // display error message
   const warningMessage = () => {
     if (error) {
+      // console.log(error);
       return <h4 className="text-danger">Failed to create category</h4>;
     }
   };

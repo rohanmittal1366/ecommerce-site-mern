@@ -1,22 +1,113 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authenticated } from "../auth/helper";
 import Base from "../core/Base";
+import { allCategory, createProduct } from "./helper/adminapicall";
 
 function AddProduct() {
+  const { user, token } = authenticated();
+
   const [values, setValues] = useState({
     name: "",
-    description: "",
+    discription: "",
     stock: "",
     price: "",
+    photo: "",
+    categories: [],
+    category: "",
+    loading: false,
+    error: "",
+    createdProduct: "",
+    getaRedirect: false,
+    formData: "",
   });
 
-  const { name, description, stock, price } = values;
+  // destructure the values
+  const {
+    name,
+    discription,
+    stock,
+    price,
+    categories,
+    category,
+    loading,
+    error,
+    createdProduct,
+    getaRedirect,
+    formData,
+  } = values;
+
+  // set the categories in the form field
+  const preload = () => {
+    allCategory().then((data) => {
+      // console.log(data);
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({ ...values, categories: data, formData: new FormData() });
+        // console.log("CATEGORIES : ", categories);
+      }
+    });
+  };
+
+  useEffect(() => {
+    preload();
+  }, []);
+
   // call function on click submit button
-  const onSubmit = () => {};
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: "", loading: true });
+    createProduct(user._id, token, formData)
+      .then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({
+            ...values,
+            name: "",
+            discription: "",
+            price: "",
+            photo: "",
+            stock: "",
+            loading: true,
+            getaRedirect: true,
+            createdProduct: data.name,
+          });
+        }
+      })
+      .then();
+  };
 
   // handle the change in fields of the form
-  const handleChange = (name) => (event) => {};
+  const handleChange = (name) => (event) => {
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    formData.set(name, value);
+    setValues({ ...values, [name]: value });
+  };
+
+  // display message after created category
+  const successMessage = () => (
+    <div
+      className="alert alert-success mt-3"
+      style={{ display: createdProduct ? "" : "none" }}
+    >
+      <h4>{createdProduct} created successfully</h4>
+    </div>
+  );
+
+  // to print error
+  const errorMessage = () => {
+    return (
+      <div
+        className="alert alert-danger mt-3"
+        style={{ display: error ? "" : "none" }}
+      >
+        {error}
+      </div>
+    );
+  };
 
   const createProductForm = () => (
     <form className="mt-3">
@@ -43,11 +134,11 @@ function AddProduct() {
       </div>
       <div className="form-group">
         <textarea
-          onChange={handleChange("description")}
+          onChange={handleChange("discription")}
           name="photo"
           className="form-control"
           placeholder="Description"
-          value={description}
+          value={discription}
         />
       </div>
       <div className="form-group">
@@ -66,13 +157,17 @@ function AddProduct() {
           placeholder="Category"
         >
           <option>Select</option>
-          <option value="a">a</option>
-          <option value="b">b</option>
+          {categories &&
+            categories.map((cate, index) => (
+              <option key={index} value={cate._id}>
+                {cate.name}
+              </option>
+            ))}
         </select>
       </div>
       <div className="form-group">
         <input
-          onChange={handleChange("quantity")}
+          onChange={handleChange("stock")}
           type="number"
           className="form-control"
           placeholder="Quantity"
@@ -100,7 +195,11 @@ function AddProduct() {
         Admin Home
       </Link>
       <div className="row bg-dark text-white rounded">
-        <div className="col-md-8 offset-md-2">{createProductForm()}</div>
+        <div className="col-md-8 offset-md-2">
+          {successMessage()}
+          {errorMessage()}
+          {createProductForm()}
+        </div>
       </div>
     </Base>
   );

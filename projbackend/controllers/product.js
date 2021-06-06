@@ -53,8 +53,9 @@ exports.createProduct = (req, res) => {
     // save photo in db
     product.save((err, product) => {
       if (err) {
+        console.log(err);
         return res.status(400).json({
-          error: "Saving tshirt is DB failed",
+          error: "Saving tshirt in DB failed",
         });
       }
       product.createdAt = undefined;
