@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
-import { addItemToCart } from "./helper/CartHelper";
+import { addItemToCart, RemoveItemFromCart } from "./helper/CartHelper";
 import ImageHelper from "./helper/ImageHelper";
 
-const Card = ({ product, addToCart = true, removeFromCart = false }) => {
+const Card = ({
+  product,
+  addToCart = true,
+  removeFromCart = false,
+  setReload = (f) => f,
+  reload = undefined,
+}) => {
   const [redirect, setRedirect] = useState(false);
 
   const [count, setCount] = useState(product.count);
@@ -45,7 +51,10 @@ const Card = ({ product, addToCart = true, removeFromCart = false }) => {
     return (
       removeFromCart && (
         <button
-          onClick={() => {}}
+          onClick={() => {
+            RemoveItemFromCart(product._id);
+            setReload(!reload);
+          }}
           className="btn btn-block btn-outline-danger mt-2 mb-2"
         >
           Remove from cart

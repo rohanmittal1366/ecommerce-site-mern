@@ -13,6 +13,7 @@ import Signup from "./user/Signup";
 import UserDashBoard from "./user/UserDashBoard";
 import UpdateProduct from "./admin/UpdateProduct";
 import UpdateCategory from "./admin/UpdateCategory";
+import Cart from "./core/Cart";
 
 const Routes = () => {
   return (
@@ -20,9 +21,10 @@ const Routes = () => {
       <Switch>
         <Route path="/" exact component={Home} />
 
-        {/* User auth  */}
+        {/* User  */}
         <Route path="/signup" exact component={Signup} />
         <Route path="/signin" exact component={Signin} />
+        <Route path="/cart" exact component={Cart} />
 
         {/* User and admin Dashboard */}
         <PrivateRoutes path="/user/dashboard" exact component={UserDashBoard} />
