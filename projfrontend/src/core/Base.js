@@ -3,7 +3,7 @@ import NavigationBar from "./NavigationBar";
 
 const Base = ({
   title = "My Title",
-  description = "My desrciption",
+  discription = "My desrciption",
   className = "bg-dark text-white p-4",
   children,
 }) => (
@@ -13,7 +13,7 @@ const Base = ({
     <div className="container-fluid">
       <div className=" py-2 bg-dark text-white text-center">
         <h2 className=" display-4">{title}</h2>
-        <p className="lead">{description}</p>
+        <p className="lead">{discription}</p>
       </div>
       <div className={className}>{children}</div>
     </div>
