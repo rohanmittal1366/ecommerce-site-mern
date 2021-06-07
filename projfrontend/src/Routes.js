@@ -12,6 +12,7 @@ import Signin from "./user/Signin";
 import Signup from "./user/Signup";
 import UserDashBoard from "./user/UserDashBoard";
 import UpdateProduct from "./admin/UpdateProduct";
+import UpdateCategory from "./admin/UpdateCategory";
 
 const Routes = () => {
   return (
@@ -31,6 +32,11 @@ const Routes = () => {
           path="/admin/categories"
           exact
           component={ManageCategories}
+        />
+        <AdminRoutes
+          path="/admin/category/update/:categoryId"
+          exact
+          component={UpdateCategory}
         />
         <AdminRoutes
           path="/admin/create/product"
