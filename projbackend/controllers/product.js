@@ -106,6 +106,7 @@ exports.updateProduct = (req, res) => {
     // save photo in db
     product.save((err, product) => {
       if (err) {
+        // console.log(err);
         return res.status(400).json({
           error: "Updation of  product in DB failed",
         });

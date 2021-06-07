@@ -82,7 +82,7 @@ const AddCategory = () => {
   return (
     <Base
       title="Add Category page"
-      description="Here you can create categories"
+      discription="Here you can create categories"
       className="container bg-info p-3"
     >
       <div className="row bg-white rounded">

@@ -44,16 +44,16 @@ function UpdateProduct({ match }) {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
+        preloadCategories();
         setValues({
           ...values,
           name: data.name,
           discription: data.discription,
           price: data.price,
-          category: data.categories._id,
+          category: data.category._id,
           stock: data.stock,
           formData: new FormData(),
         });
-        preloadCategories();
       }
     });
   };
@@ -81,24 +81,28 @@ function UpdateProduct({ match }) {
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
-    updateProduct(user._id, token, formData).then((data) => {
-      console.log(data);
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({
-          ...values,
-          name: "",
-          discription: "",
-          price: "",
-          photo: "",
-          stock: "",
-          loading: true,
-          getaRedirect: true,
-          createdProduct: data.name,
-        });
+
+    updateProduct(user._id, token, formData, match.params.productId).then(
+      (data) => {
+        console.log(data);
+        // console.log(user._Id);
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({
+            ...values,
+            name: "",
+            discription: "",
+            price: "",
+            photo: "",
+            stock: "",
+            loading: false,
+            getaRedirect: true,
+            createdProduct: data.name,
+          });
+        }
       }
-    });
+    );
   };
 
   // handle the change in fields of the form
@@ -114,7 +118,7 @@ function UpdateProduct({ match }) {
       className="alert alert-success mt-3"
       style={{ display: createdProduct ? "" : "none" }}
     >
-      <h4>{createdProduct} created successfully</h4>
+      <h4>{createdProduct} updated successfully</h4>
     </div>
   );
 
@@ -158,7 +162,7 @@ function UpdateProduct({ match }) {
           onChange={handleChange("discription")}
           name="photo"
           className="form-control"
-          placeholder="Description"
+          placeholder="discription"
           value={discription}
         />
       </div>
@@ -179,16 +183,12 @@ function UpdateProduct({ match }) {
         >
           <option>Select</option>
           {categories &&
-            categories.map(
-              (cate, index) => (
-                console.log(categories),
-                (
-                  <option key={index} value={cate._id}>
-                    {cate.name}
-                  </option>
-                )
-              )
-            )}
+            categories.map((cate, index) => (
+              // console.log(categories),
+              <option key={index} value={cate._id}>
+                {cate.name}
+              </option>
+            ))}
         </select>
       </div>
       <div className="form-group">
@@ -203,10 +203,10 @@ function UpdateProduct({ match }) {
 
       <button
         type="submit"
-        // onClick={onSubmit}
+        onClick={onSubmit}
         className="btn btn-outline-success mb-3"
       >
-        Create Product
+        Update Product
       </button>
     </form>
   );
@@ -214,7 +214,7 @@ function UpdateProduct({ match }) {
   return (
     <Base
       title="Add a product "
-      description="welcome to product creation section"
+      discription="welcome to product creation section"
       className="container bg-info p-4"
     >
       <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3">

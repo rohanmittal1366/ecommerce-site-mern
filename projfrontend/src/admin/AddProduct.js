@@ -144,7 +144,7 @@ function AddProduct() {
           onChange={handleChange("discription")}
           name="photo"
           className="form-control"
-          placeholder="Description"
+          placeholder="discription"
           value={discription}
         />
       </div>
@@ -195,7 +195,7 @@ function AddProduct() {
   return (
     <Base
       title="Add a product "
-      description="welcome to product creation section"
+      discription="welcome to product creation section"
       className="container bg-info p-4"
     >
       <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3">
