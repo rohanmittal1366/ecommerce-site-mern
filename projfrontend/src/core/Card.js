@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router";
+import { addItemToCart } from "./helper/CartHelper";
 import ImageHelper from "./helper/ImageHelper";
 
 const Card = ({ product, addToCart = true, removeFromCart = false }) => {
+  const [redirect, setRedirect] = useState(false);
+
+  const [count, setCount] = useState(product.count);
+
   const cartTitle = product ? product.name : "Product";
   const cartDiscription = product
     ? product.discription
     : "This product is realy good";
   const cartPrice = product ? product.price : "Default";
 
+  const addThisToCart = () => {
+    addItemToCart(product, () => setRedirect(true));
+  };
+
+  const getRedirect = (redirect) => {
+    if (redirect) {
+      return <Redirect to="/cart" />;
+    }
+  };
+
+  //   useEffect(() => {}, []);
+
   // to show the Add to cart Button
   const showAddToCart = () => {
     return (
       addToCart && (
         <button
-          onClick={() => {}}
+          onClick={addThisToCart}
           className="btn btn-block btn-outline-success mt-2 mb-2"
         >
           Add to Cart
@@ -40,6 +58,7 @@ const Card = ({ product, addToCart = true, removeFromCart = false }) => {
     <div className="card text-white bg-dark border border-info ">
       <div className="card-header lead">{cartTitle}</div>
       <div className="card-body">
+        {getRedirect(redirect)}
         <ImageHelper product={product} />
         <p className="lead bg-success font-weight-normal text-wrap">
           {cartDiscription}
