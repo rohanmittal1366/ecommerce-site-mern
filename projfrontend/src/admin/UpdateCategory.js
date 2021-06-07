@@ -99,8 +99,8 @@ const UpdateCategory = ({ match }) => {
 
   return (
     <Base
-      title="Add Category page"
-      discription="Here you can create categories"
+      title="update Category page"
+      discription="Here you can update categories"
       className="container bg-info p-3"
     >
       <div className="row bg-white rounded">

@@ -19,10 +19,16 @@ const Routes = () => {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={Home} />
+
+        {/* User auth  */}
         <Route path="/signup" exact component={Signup} />
         <Route path="/signin" exact component={Signin} />
+
+        {/* User and admin Dashboard */}
         <PrivateRoutes path="/user/dashboard" exact component={UserDashBoard} />
         <AdminRoutes path="/admin/dashboard" exact component={AdminDashBoard} />
+
+        {/* Category Routes */}
         <AdminRoutes
           path="/admin/create/category"
           exact
@@ -38,6 +44,8 @@ const Routes = () => {
           exact
           component={UpdateCategory}
         />
+
+        {/* Products Routes */}
         <AdminRoutes
           path="/admin/create/product"
           exact

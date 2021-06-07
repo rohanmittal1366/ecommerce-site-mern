@@ -38,7 +38,7 @@ const Signin = () => {
           });
         }
       })
-      .catch(console.log("Signin request failed"));
+      .catch();
   };
 
   // check whether the user is admin or not and redirect it to that page
