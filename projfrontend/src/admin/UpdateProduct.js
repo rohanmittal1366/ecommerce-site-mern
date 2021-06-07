@@ -60,7 +60,7 @@ function UpdateProduct({ match }) {
 
   const preloadCategories = () => {
     allCategory().then((data) => {
-      console.log(categories);
+      //   console.log(categories);
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {

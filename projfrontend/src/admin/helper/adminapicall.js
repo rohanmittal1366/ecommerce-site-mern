@@ -33,6 +33,20 @@ export const allCategory = () => {
     .catch((err) => console.log(err));
 };
 
+export const deleteCategory = (userId, token, categoryId) => {
+  return fetch(`${API}/category/${categoryId}/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
 // product calls
 
 // create a product
