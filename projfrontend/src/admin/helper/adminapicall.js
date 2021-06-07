@@ -27,7 +27,7 @@ export const allCategory = () => {
     method: "GET",
   })
     .then((response) => {
-      // console.log("res", response);
+      console.log("res", response);
       return response.json();
     })
     .catch((err) => console.log(err));

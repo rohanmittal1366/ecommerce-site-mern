@@ -31,14 +31,14 @@ exports.getCategory = (req, res) => {
 };
 
 exports.getAllCategory = (req, res) => {
-  Category.find().exec((err, categories) => {
+  Category.find().exec((err, category) => {
     if (err) {
       return res.status(400).json({
         error: "No categories found in database",
       });
     }
 
-    res.json(categories);
+    res.json(category);
   });
 };
 

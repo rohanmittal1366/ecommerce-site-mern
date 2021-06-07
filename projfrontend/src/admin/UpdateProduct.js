@@ -40,7 +40,7 @@ function UpdateProduct({ match }) {
   // set the categories in the form field
   const preload = (productId) => {
     getProduct(productId).then((data) => {
-      //   console.log(data);
+      console.log(data);
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -49,7 +49,7 @@ function UpdateProduct({ match }) {
           name: data.name,
           discription: data.discription,
           price: data.price,
-          category: data.category._id,
+          category: data.categories._id,
           stock: data.stock,
           formData: new FormData(),
         });
@@ -60,6 +60,7 @@ function UpdateProduct({ match }) {
 
   const preloadCategories = () => {
     allCategory().then((data) => {
+      console.log(categories);
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -178,11 +179,16 @@ function UpdateProduct({ match }) {
         >
           <option>Select</option>
           {categories &&
-            categories.map((cate, index) => (
-              <option key={index} value={cate._id}>
-                {cate.name}
-              </option>
-            ))}
+            categories.map(
+              (cate, index) => (
+                console.log(categories),
+                (
+                  <option key={index} value={cate._id}>
+                    {cate.name}
+                  </option>
+                )
+              )
+            )}
         </select>
       </div>
       <div className="form-group">

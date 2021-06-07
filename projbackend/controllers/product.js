@@ -5,7 +5,7 @@ const fs = require("fs");
 
 exports.getProductById = (req, res, next, id) => {
   Product.findById(id)
-    .populate("Category")
+    .populate("category")
     .exec((err, product) => {
       if (err) {
         return res.status(400).json({
@@ -28,9 +28,9 @@ exports.createProduct = (req, res) => {
       });
     }
     //destructure the fields
-    const { name, description, price, category, stock } = fields;
+    const { name, discription, price, category, stock } = fields;
 
-    if (!name || !description || !price || !category || !stock) {
+    if (!name || !discription || !price || !category || !stock) {
       return res.status(400).json({
         error: "Please include all fields",
       });
@@ -53,7 +53,7 @@ exports.createProduct = (req, res) => {
     //save to the DB
     product.save((err, product) => {
       if (err) {
-        res.status(400).json({
+        return res.status(400).json({
           error: "Saving tshirt in DB failed",
         });
       }
