@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-
 const { ObjectId } = mongoose.Schema;
+
 const productSchema = new mongoose.Schema(
   {
     name: {
@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       maxlength: 32,
     },
-    discription: {
+    description: {
       type: String,
       trim: true,
       required: true,
@@ -21,7 +21,6 @@ const productSchema = new mongoose.Schema(
       maxlength: 32,
       trim: true,
     },
-
     category: {
       type: ObjectId,
       ref: "Category",

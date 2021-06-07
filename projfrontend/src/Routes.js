@@ -11,6 +11,7 @@ import AdminDashBoard from "./user/AdminDashBoard";
 import Signin from "./user/Signin";
 import Signup from "./user/Signup";
 import UserDashBoard from "./user/UserDashBoard";
+import UpdateProduct from "./admin/UpdateProduct";
 
 const Routes = () => {
   return (
@@ -35,6 +36,11 @@ const Routes = () => {
           path="/admin/create/product"
           exact
           component={AddProduct}
+        />
+        <AdminRoutes
+          path="/admin/product/update/:productId"
+          exact
+          component={UpdateProduct}
         />
         <AdminRoutes path="/admin/products" exact component={ManageProducts} />
       </Switch>

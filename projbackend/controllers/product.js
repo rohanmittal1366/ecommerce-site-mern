@@ -5,9 +5,9 @@ const fs = require("fs");
 
 exports.getProductById = (req, res, next, id) => {
   Product.findById(id)
-    .populate("product")
+    .populate("Category")
     .exec((err, product) => {
-      if (err || !product) {
+      if (err) {
         return res.status(400).json({
           error: "Product not found",
         });
@@ -27,11 +27,10 @@ exports.createProduct = (req, res) => {
         error: "problem with image",
       });
     }
-
     //destructure the fields
-    const { name, discription, price, category, stock } = fields;
+    const { name, description, price, category, stock } = fields;
 
-    if (!name || !discription || !price || !category || !stock) {
+    if (!name || !description || !price || !category || !stock) {
       return res.status(400).json({
         error: "Please include all fields",
       });
@@ -39,27 +38,25 @@ exports.createProduct = (req, res) => {
 
     let product = new Product(fields);
 
-    // handle file here
+    //handle file here
     if (file.photo) {
       if (file.photo.size > 3000000) {
         return res.status(400).json({
-          error: "File size is too big",
+          error: "File size too big!",
         });
       }
       product.photo.data = fs.readFileSync(file.photo.path);
       product.photo.contentType = file.photo.type;
     }
+    // console.log(product);
 
-    // save photo in db
+    //save to the DB
     product.save((err, product) => {
       if (err) {
-        console.log(err);
-        return res.status(400).json({
+        res.status(400).json({
           error: "Saving tshirt in DB failed",
         });
       }
-      product.createdAt = undefined;
-      product.updatedAt = undefined;
       res.json(product);
     });
   });
@@ -67,8 +64,8 @@ exports.createProduct = (req, res) => {
 
 exports.getProduct = (req, res) => {
   req.product.photo = undefined;
-  product.createdAt = undefined;
-  product.updatedAt = undefined;
+  req.product.createdAt = undefined;
+  req.product.updatedAt = undefined;
   return res.json(req.product);
 };
 
@@ -143,7 +140,7 @@ exports.getAllProducts = (req, res) => {
 
   Product.find()
     .select("-photo")
-    .populate("product")
+    .populate("category")
     .sort([[sortBy, "asc"]])
     .limit(limit)
     .exec((err, product) => {
