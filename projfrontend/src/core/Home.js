@@ -25,7 +25,7 @@ function Home() {
   }, []);
 
   return (
-    <Base title="Home Page" discription="Welcome to Online shopping site">
+    <Base title="Home Page" description="Welcome to Online shopping site">
       <div className="row text-center">
         <h1 className="text-white">All of tshirts</h1>
         <div className="row">

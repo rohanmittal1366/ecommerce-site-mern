@@ -9,7 +9,7 @@ function AddProduct() {
 
   const [values, setValues] = useState({
     name: "",
-    discription: "",
+    description: "",
     stock: "",
     price: "",
     photo: "",
@@ -25,7 +25,7 @@ function AddProduct() {
   // destructure the values
   const {
     name,
-    discription,
+    description,
     stock,
     price,
     categories,
@@ -67,7 +67,7 @@ function AddProduct() {
         setValues({
           ...values,
           name: "",
-          discription: "",
+          description: "",
           price: "",
           photo: "",
           stock: "",
@@ -141,11 +141,11 @@ function AddProduct() {
       </div>
       <div className="form-group">
         <textarea
-          onChange={handleChange("discription")}
+          onChange={handleChange("description")}
           name="photo"
           className="form-control"
-          placeholder="discription"
-          value={discription}
+          placeholder="description"
+          value={description}
         />
       </div>
       <div className="form-group">
@@ -195,7 +195,7 @@ function AddProduct() {
   return (
     <Base
       title="Add a product "
-      discription="welcome to product creation section"
+      description="welcome to product creation section"
       className="container bg-info p-4"
     >
       <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3">

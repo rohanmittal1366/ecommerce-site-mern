@@ -15,8 +15,8 @@ const Card = ({
   const [count, setCount] = useState(product.count);
 
   const cartTitle = product ? product.name : "Product";
-  const cartDiscription = product
-    ? product.discription
+  const cartdescription = product
+    ? product.description
     : "This product is realy good";
   const cartPrice = product ? product.price : "Default";
 
@@ -70,7 +70,7 @@ const Card = ({
         {getRedirect(redirect)}
         <ImageHelper product={product} />
         <p className="lead bg-success font-weight-normal text-wrap">
-          {cartDiscription}
+          {cartdescription}
         </p>
 
         <p className="btn btn-success rounded  btn-sm px-4">$ {cartPrice}</p>
