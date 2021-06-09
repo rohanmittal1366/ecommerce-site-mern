@@ -67,9 +67,9 @@ const Card = ({
     <div className="card text-white bg-dark border border-info ">
       <div className="card-header lead">{cartTitle}</div>
       <div className="card-body">
-        {getRedirect(redirect)}
+        {/* {getRedirect(redirect)} */}
         <ImageHelper product={product} />
-        <p className="lead bg-success font-weight-normal text-wrap">
+        <p className="lead bg-success font-weight-normal text-wrap mt-3">
           {cartdescription}
         </p>
 

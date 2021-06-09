@@ -11,7 +11,7 @@ const Base = ({
     <NavigationBar />
     {/* Component for header */}
     <div className="container-fluid">
-      <div className=" py-2 bg-dark text-white text-center">
+      <div className="bg-dark text-white text-center mt-2 ">
         <h2 className=" display-4">{title}</h2>
         <p className="lead">{description}</p>
       </div>
@@ -26,7 +26,7 @@ const Base = ({
       </div>
       <div className="container">
         <span className="text-muted">
-          An Amazing <span className="text-white">MERN</span> Bootcamp
+          An Amazing <span className="text-white">MERN</span> Project
         </span>
       </div>
     </footer>

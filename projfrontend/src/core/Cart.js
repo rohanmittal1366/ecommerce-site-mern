@@ -16,22 +16,24 @@ const Cart = () => {
 
   const loadAllProducts = (products) => {
     return (
-      <div className="">
-        <h2>This section is to load products</h2>
+      <div className="row mt-4">
         {products &&
           products.map((product, index) => (
-            <Card
-              key={index}
-              product={product}
-              removeFromCart={true}
-              addToCart={false}
-              setReload={setReload}
-              reload={reload}
-            />
+            <div className="col-4 mb-3">
+              <Card
+                key={index}
+                product={product}
+                removeFromCart={true}
+                addToCart={false}
+                setReload={setReload}
+                reload={reload}
+              />
+            </div>
           ))}
       </div>
     );
   };
+  // flat and flat mates
 
   const loadCheckout = () => {
     return (
@@ -41,19 +43,37 @@ const Cart = () => {
     );
   };
 
+  const getAmount = () => {
+    let amount = 0;
+    products &&
+      products.map((p) => {
+        amount = amount + p.price;
+      });
+
+    return amount;
+  };
+
   return (
     <Base title="Cart Page" description="check your products">
       <div className="row text-center">
-        <div className="col-6">
-          {products.length > 0 ? (
-            loadAllProducts(products)
-          ) : (
-            <h3> No products in cart</h3>
-          )}
+        <div className="col-8">
+          <div className=" text-center">
+            <h2>This section is to load products</h2>
+            {products.length > 0 ? (
+              loadAllProducts(products)
+            ) : (
+              <h3> No products in cart</h3>
+            )}
+          </div>
         </div>
-        <div className="col-6">
-          <StripeCheckout products={products} setReload={setReload} />
-          <PaymentB products={products} setReload={setReload} />
+        <div className="col-4 ">
+          <h2>Your Bill is $ {getAmount()}</h2>
+          <div className="card text-white bg-dark border border-info mb-4 mt-4">
+            <StripeCheckout products={products} setReload={setReload} />
+          </div>
+          <div className="card text-white bg-dark border border-info mt-4 ">
+            <PaymentB products={products} setReload={setReload} />
+          </div>
         </div>
       </div>
     </Base>

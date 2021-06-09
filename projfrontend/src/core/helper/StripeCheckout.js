@@ -62,7 +62,11 @@ const StripeCheckout = ({
         shippingAddress
         billingAddress
       >
-        <button className="btn btn-success mt-3 mb-3">Pay with stripe</button>
+        <div className="row">
+          <button className="btn btn-success mt-3 mb-3 col-10 offset-md-1 ">
+            Buy
+          </button>
+        </div>
       </StripeCheckoutButton>
     ) : (
       <Link to="/signin">
@@ -72,8 +76,13 @@ const StripeCheckout = ({
   };
 
   return (
-    <div>
-      <h3 className="text-white">Stripe checkout {getFinalPrice()}</h3>
+    <div className="card-body">
+      <h2 className="text-white mt-3 text-info  ">Pay with Stripe </h2>
+      <span className="row ml-4 mt-3 text-warning">
+        Use Card Number : 4242 4242 4242 4242
+      </span>
+      <span className="row ml-4 text-warning">Expiration Date : 12/21 </span>
+      <span className="row ml-4 text-warning"> CVV : 123 </span>
       {showStripeButton()}
     </div>
   );

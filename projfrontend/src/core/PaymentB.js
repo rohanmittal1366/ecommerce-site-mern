@@ -39,9 +39,19 @@ const PaymentB = ({ products, setReload = (f) => f, reload = undefined }) => {
               options={{ authorization: info.clientToken }}
               onInstance={(instance) => (info.instance = instance)}
             />
-            <button onClick={onPurchase} className="btn  btn-block btn-success">
-              Buy
-            </button>
+
+            {authenticated() ? (
+              <button
+                onClick={onPurchase}
+                className="btn  btn-block btn-success"
+              >
+                Buy
+              </button>
+            ) : (
+              <Link to="/signin">
+                <button className="btn btn-warning mt-3">Go To Signin</button>
+              </Link>
+            )}
           </div>
         ) : (
           <h3>Please Login or add something to cart</h3>
@@ -93,8 +103,12 @@ const PaymentB = ({ products, setReload = (f) => f, reload = undefined }) => {
   };
 
   return (
-    <div>
-      <h3>Test Bt</h3>
+    <div className="card-body">
+      <h2 className="text-white mt-3 text-info ">Pay with Paypal </h2>
+      <span className="row ml-4 mt-3 text-warning">
+        Use Card Number : 3782 822463 10005
+      </span>
+      <span className="row ml-4 text-warning">Expiration Date : 12/21 </span>
       {showBrainTreeDropIn()}
     </div>
   );
