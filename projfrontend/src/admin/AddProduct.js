@@ -194,7 +194,7 @@ function AddProduct() {
 
   return (
     <Base
-      title="Add a product "
+      title="ADD PRODUCT "
       description="welcome to product creation section"
       className="container bg-info p-4"
     >

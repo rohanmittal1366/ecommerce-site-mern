@@ -35,14 +35,21 @@ const ManageCategories = () => {
   };
 
   return (
-    <Base title="Welcome admin" description="Manage products here">
-      <h2 className="mb-4">All products:</h2>
-      <Link className="btn btn-info" to={`/admin/dashboard`}>
+    <Base
+      title="MY CATEGORY"
+      description="Manage your categories here"
+      className=" p-4 mb-5"
+    >
+      <Link className="btn btn-info mb-4" to={`/admin/dashboard`}>
         <span className="">Admin Home</span>
       </Link>
+
+      <h2 className="mb-4 text-white">All Categories:</h2>
       <div className="row">
         <div className="col-12">
-          <h2 className="text-center text-white my-3">Total 3 products</h2>
+          <h2 className="text-center text-white my-3">
+            Total {categories.length} categories
+          </h2>
           {categories.map((category, index) => {
             return (
               <div key={index} className="row text-center mb-2 ">

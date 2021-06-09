@@ -18,7 +18,7 @@ router.param("orderId", getOrderById);
 
 //create routes
 router.post(
-  "/order/create/:usedId",
+  "/order/create/:userId",
   isSignedIn,
   isAuthenticated,
   pushOrderInPurchaseList,

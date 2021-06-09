@@ -5,6 +5,7 @@ import { authenticated } from "../auth/helper";
 import { cartEmpty, loadCart } from "./helper/CartHelper";
 import { getMeToken, processPayment } from "./helper/PaymentBHelper";
 import DropIn from "braintree-web-drop-in-react";
+import { createOrder } from "./helper/OrderHelper";
 
 const PaymentB = ({ products, setReload = (f) => f, reload = undefined }) => {
   const [info, setInfo] = useState({
@@ -54,7 +55,7 @@ const PaymentB = ({ products, setReload = (f) => f, reload = undefined }) => {
             )}
           </div>
         ) : (
-          <h3>Please Login or add something to cart</h3>
+          <h3 className="mt-3">Please Login or add something to cart</h3>
         )}
       </div>
     );
@@ -71,6 +72,8 @@ const PaymentB = ({ products, setReload = (f) => f, reload = undefined }) => {
       loading: true,
     });
     let nonce;
+    // console.log("INFO ", info.instance);
+
     let getNonce = info.instance
       .requestPaymentMethod()
       .then((data) => {
@@ -83,6 +86,15 @@ const PaymentB = ({ products, setReload = (f) => f, reload = undefined }) => {
           .then((response) => {
             setInfo({ ...info, success: response.success, loading: false });
             alert("PAYMENT DONE SUCCESSFULLY");
+
+            const orderData = {
+              products: products,
+              transaction_Id: response.transaction.id,
+              amount: response.transaction.amount,
+            };
+            createOrder(userId, token, orderData);
+            cartEmpty(() => {});
+            setReload(!reload);
           })
           .catch((err) => {
             setInfo({ ...info, loading: false, success: false, error: err });

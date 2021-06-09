@@ -13,8 +13,8 @@ const AddCategory = () => {
 
   // function for go back to admin dashboard
   const goBack = () => (
-    <div className="mt-5">
-      <Link to="/admin/dashboard" className="btn btn-sm btn-success mb-3 ">
+    <div className="">
+      <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3 ">
         Admin Home
       </Link>
     </div>
@@ -61,7 +61,7 @@ const AddCategory = () => {
 
   const categoryForm = () => (
     <form action="">
-      <div className="form-group">
+      <div className="form-group mt-4 text-dark">
         <p className="lead">Enter the Category</p>
         <input
           type="text"
@@ -72,7 +72,7 @@ const AddCategory = () => {
           onChange={handleChange}
           value={name}
         />
-        <button onClick={onSubmit} className="btn btn-outline-info">
+        <button onClick={onSubmit} className="btn btn-outline-info mb-3">
           Create Category
         </button>
       </div>
@@ -83,13 +83,14 @@ const AddCategory = () => {
     <Base
       title="Add Category page"
       description="Here you can create categories"
-      className="container bg-info p-3"
+      className="container bg-info p-4 mb-5"
     >
-      <div className="row bg-white rounded">
+      {goBack()}
+      <div className="row bg-white rounded mb-4 ">
         <div className="col-md-8 offset-md-2">
           {successMessage()}
           {warningMessage()}
-          {categoryForm()} {goBack()}
+          {categoryForm()}
         </div>
       </div>
     </Base>

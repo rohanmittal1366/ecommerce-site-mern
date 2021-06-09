@@ -33,15 +33,6 @@ const Cart = () => {
       </div>
     );
   };
-  // flat and flat mates
-
-  const loadCheckout = () => {
-    return (
-      <div className="">
-        <h2>This section is for checkout</h2>
-      </div>
-    );
-  };
 
   const getAmount = () => {
     let amount = 0;
@@ -54,11 +45,14 @@ const Cart = () => {
   };
 
   return (
-    <Base title="Cart Page" description="check your products">
+    <Base
+      title="MY SHOPPING CART "
+      description="Check your cart products to purchase with two payment methods"
+    >
       <div className="row text-center">
         <div className="col-8">
           <div className=" text-center">
-            <h2>This section is to load products</h2>
+            <h2>Products</h2>
             {products.length > 0 ? (
               loadAllProducts(products)
             ) : (

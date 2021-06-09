@@ -13,7 +13,7 @@ const UpdateCategory = ({ match }) => {
 
   // function for go back to admin dashboard
   const goBack = () => (
-    <div className="mt-5">
+    <div className="">
       <Link to="/admin/dashboard" className="btn btn-sm btn-success mb-3 ">
         Admin Home
       </Link>
@@ -79,7 +79,7 @@ const UpdateCategory = ({ match }) => {
 
   const categoryForm = () => (
     <form action="">
-      <div className="form-group">
+      <div className="form-group mt-4 text-dark">
         <p className="lead">Enter the Category</p>
         <input
           type="text"
@@ -90,7 +90,7 @@ const UpdateCategory = ({ match }) => {
           onChange={handleChange}
           value={name}
         />
-        <button onClick={onSubmit} className="btn btn-outline-info">
+        <button onClick={onSubmit} className="btn btn-outline-info mb-3">
           Update Category
         </button>
       </div>
@@ -99,15 +99,16 @@ const UpdateCategory = ({ match }) => {
 
   return (
     <Base
-      title="update Category page"
+      title="UPDATE CATEGORY"
       description="Here you can update categories"
-      className="container bg-info p-3"
+      className="container bg-info p-4 mb-5"
     >
-      <div className="row bg-white rounded">
+      {goBack()}
+      <div className="row bg-white rounded mb-4 ">
         <div className="col-md-8 offset-md-2">
           {successMessage()}
           {warningMessage()}
-          {categoryForm()} {goBack()}
+          {categoryForm()}
         </div>
       </div>
     </Base>
