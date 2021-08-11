@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { authenticated } from "../auth/helper";
 import Base from "../core/Base";
-import { allCategory, updateProduct, getProduct } from "./helper/adminapicall";
+import { allCategory, createProduct } from "./helper/adminapicall";
 
-function UpdateProduct({ match }) {
+function AddProduct() {
   const { user, token } = authenticated();
 
   const [values, setValues] = useState({
@@ -38,42 +38,23 @@ function UpdateProduct({ match }) {
   } = values;
 
   // set the categories in the form field
-  const preload = (productId) => {
-    getProduct(productId).then((data) => {
-      console.log(data);
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        preloadCategories();
-        setValues({
-          ...values,
-          name: data.name,
-          description: data.description,
-          price: data.price,
-          category: data.category._id,
-          stock: data.stock,
-          formData: new FormData(),
-        });
-      }
-    });
-  };
-
-  const preloadCategories = () => {
-    allCategory().then((data) => {
-      //   console.log(categories);
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({
-          categories: data,
-          formData: new FormData(),
-        });
-      }
-    });
+  const preload = () => {
+    allCategory()
+      .then((data) => {
+        // console.log(data);
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({ ...values, categories: data, formData: new FormData() });
+          // console.log("CATEGORIES : ", categories);
+        }
+      })
+      .catch();
   };
 
   useEffect(() => {
-    preload(match.params.productId);
+    preload();
+    // performRedirect();
   }, []);
 
   // call function on click submit button
@@ -81,11 +62,8 @@ function UpdateProduct({ match }) {
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
-
-    updateProduct(user._id, token, formData, match.params.productId).then(
-      (data) => {
-        console.log(data);
-        // console.log(user._Id);
+    createProduct(user._id, token, formData)
+      .then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error });
         } else {
@@ -96,13 +74,13 @@ function UpdateProduct({ match }) {
             price: "",
             photo: "",
             stock: "",
-            loading: false,
+            loading: true,
             getaRedirect: true,
             createdProduct: data.name,
           });
         }
-      }
-    );
+      })
+      .catch();
   };
 
   // handle the change in fields of the form
@@ -118,9 +96,17 @@ function UpdateProduct({ match }) {
       className="alert alert-success mt-3"
       style={{ display: createdProduct ? "" : "none" }}
     >
-      <h4>{createdProduct} updated successfully</h4>
+      <h4>{createdProduct} created successfully</h4>
     </div>
   );
+
+  const performRedirect = () => {
+    if (getaRedirect) {
+      setTimeout(() => {
+        return <Redirect to="/admin/dashboard" />;
+      }, 2000);
+    }
+  };
 
   // to print error
   const errorMessage = () => {
@@ -184,7 +170,6 @@ function UpdateProduct({ match }) {
           <option>Select</option>
           {categories &&
             categories.map((cate, index) => (
-              // console.log(categories),
               <option key={index} value={cate._id}>
                 {cate.name}
               </option>
@@ -206,14 +191,14 @@ function UpdateProduct({ match }) {
         onClick={onSubmit}
         className="btn btn-outline-success mb-3"
       >
-        Update Product
+        Create Product
       </button>
     </form>
   );
 
   return (
     <Base
-      title="Add a product "
+      title="ADD PRODUCT "
       description="welcome to product creation section"
       className="container bg-info p-4"
     >
@@ -231,4 +216,4 @@ function UpdateProduct({ match }) {
   );
 }
 
-export default UpdateProduct;
+export default AddProduct;

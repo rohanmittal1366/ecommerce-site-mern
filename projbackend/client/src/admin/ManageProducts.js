@@ -10,14 +10,16 @@ const ManageProducts = () => {
   const { user, token } = authenticated();
 
   const preload = () => {
-    allProducts().then((data) => {
-      //   console.log(data);
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setProducts(data);
-      }
-    });
+    allProducts()
+      .then((data) => {
+        //   console.log(data);
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          setProducts(data);
+        }
+      })
+      .catch();
   };
 
   useEffect(() => {
@@ -25,13 +27,15 @@ const ManageProducts = () => {
   }, []);
 
   const deleteThisProduct = (productId) => {
-    deleteProduct(user._id, token, productId).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        preload();
-      }
-    });
+    deleteProduct(user._id, token, productId)
+      .then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          preload();
+        }
+      })
+      .catch();
   };
 
   return (

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { authenticated } from "../auth/helper";
 import Base from "../core/Base";
-import { allCategory, createProduct } from "./helper/adminapicall";
+import { allCategory, updateProduct, getProduct } from "./helper/adminapicall";
 
-function AddProduct() {
+function UpdateProduct({ match }) {
   const { user, token } = authenticated();
 
   const [values, setValues] = useState({
@@ -38,21 +38,46 @@ function AddProduct() {
   } = values;
 
   // set the categories in the form field
-  const preload = () => {
-    allCategory().then((data) => {
-      // console.log(data);
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({ ...values, categories: data, formData: new FormData() });
-        // console.log("CATEGORIES : ", categories);
-      }
-    });
+  const preload = (productId) => {
+    getProduct(productId)
+      .then((data) => {
+        console.log(data);
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          preloadCategories();
+          setValues({
+            ...values,
+            name: data.name,
+            description: data.description,
+            price: data.price,
+            category: data.category._id,
+            stock: data.stock,
+            formData: new FormData(),
+          });
+        }
+      })
+      .catch();
+  };
+
+  const preloadCategories = () => {
+    allCategory()
+      .then((data) => {
+        //   console.log(categories);
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({
+            categories: data,
+            formData: new FormData(),
+          });
+        }
+      })
+      .catch();
   };
 
   useEffect(() => {
-    preload();
-    // performRedirect();
+    preload(match.params.productId);
   }, []);
 
   // call function on click submit button
@@ -60,23 +85,28 @@ function AddProduct() {
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
-    createProduct(user._id, token, formData).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({
-          ...values,
-          name: "",
-          description: "",
-          price: "",
-          photo: "",
-          stock: "",
-          loading: true,
-          getaRedirect: true,
-          createdProduct: data.name,
-        });
-      }
-    });
+
+    updateProduct(user._id, token, formData, match.params.productId)
+      .then((data) => {
+        console.log(data);
+        // console.log(user._Id);
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({
+            ...values,
+            name: "",
+            description: "",
+            price: "",
+            photo: "",
+            stock: "",
+            loading: false,
+            getaRedirect: true,
+            createdProduct: data.name,
+          });
+        }
+      })
+      .catch();
   };
 
   // handle the change in fields of the form
@@ -92,17 +122,9 @@ function AddProduct() {
       className="alert alert-success mt-3"
       style={{ display: createdProduct ? "" : "none" }}
     >
-      <h4>{createdProduct} created successfully</h4>
+      <h4>{createdProduct} updated successfully</h4>
     </div>
   );
-
-  const performRedirect = () => {
-    if (getaRedirect) {
-      setTimeout(() => {
-        return <Redirect to="/admin/dashboard" />;
-      }, 2000);
-    }
-  };
 
   // to print error
   const errorMessage = () => {
@@ -166,6 +188,7 @@ function AddProduct() {
           <option>Select</option>
           {categories &&
             categories.map((cate, index) => (
+              // console.log(categories),
               <option key={index} value={cate._id}>
                 {cate.name}
               </option>
@@ -187,14 +210,14 @@ function AddProduct() {
         onClick={onSubmit}
         className="btn btn-outline-success mb-3"
       >
-        Create Product
+        Update Product
       </button>
     </form>
   );
 
   return (
     <Base
-      title="ADD PRODUCT "
+      title="Add a product "
       description="welcome to product creation section"
       className="container bg-info p-4"
     >
@@ -212,4 +235,4 @@ function AddProduct() {
   );
 }
 
-export default AddProduct;
+export default UpdateProduct;

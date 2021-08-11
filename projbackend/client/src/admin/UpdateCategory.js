@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { authenticated } from "../auth/helper";
 import Base from "../core/Base";
-import { createCategory } from "./helper/adminapicall";
+import { getCategory, updateCategory } from "./helper/adminapicall";
 
-const AddCategory = () => {
+const UpdateCategory = ({ match }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -14,7 +14,7 @@ const AddCategory = () => {
   // function for go back to admin dashboard
   const goBack = () => (
     <div className="">
-      <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3 ">
+      <Link to="/admin/dashboard" className="btn btn-sm btn-success mb-3 ">
         Admin Home
       </Link>
     </div>
@@ -26,6 +26,23 @@ const AddCategory = () => {
     setName(event.target.value);
   };
 
+  const preload = (categoryId) => {
+    getCategory(categoryId)
+      .then((data) => {
+        //   console.log(data);
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setName(data.name);
+        }
+      })
+      .catch();
+  };
+
+  useEffect(() => {
+    preload(match.params.categoryId);
+  }, []);
+
   // function to handle the submit button
   const onSubmit = (event) => {
     event.preventDefault();
@@ -33,21 +50,24 @@ const AddCategory = () => {
     setSuccess(false);
 
     //backend request
-    createCategory(user._id, token, { name }).then((data) => {
-      if (data && data.error) {
-        setError(true);
-      } else {
-        setError("");
-        setSuccess(true);
-        setName("");
-      }
-    });
+    updateCategory(user._id, token, { name }, match.params.categoryId)
+      .then((data) => {
+        // console.log(name);
+        if (data && data.error) {
+          setError(true);
+        } else {
+          setError("");
+          setSuccess(true);
+          setName("");
+        }
+      })
+      .catch();
   };
 
   // display message after created category
   const successMessage = () => {
     if (success) {
-      return <h4 className="text-success">Category created successfully</h4>;
+      return <h4 className="text-success">Category updated successfully</h4>;
     }
   };
 
@@ -55,7 +75,7 @@ const AddCategory = () => {
   const warningMessage = () => {
     if (error) {
       // console.log(error);
-      return <h4 className="text-danger">Failed to create category</h4>;
+      return <h4 className="text-danger">Failed to update category</h4>;
     }
   };
 
@@ -73,7 +93,7 @@ const AddCategory = () => {
           value={name}
         />
         <button onClick={onSubmit} className="btn btn-outline-info mb-3">
-          Create Category
+          Update Category
         </button>
       </div>
     </form>
@@ -81,8 +101,8 @@ const AddCategory = () => {
 
   return (
     <Base
-      title="Add Category page"
-      description="Here you can create categories"
+      title="UPDATE CATEGORY"
+      description="Here you can update categories"
       className="container bg-info p-4 mb-5"
     >
       {goBack()}
@@ -97,4 +117,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default UpdateCategory;

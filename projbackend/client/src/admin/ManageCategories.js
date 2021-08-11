@@ -10,13 +10,15 @@ const ManageCategories = () => {
   const { user, token } = authenticated();
 
   const preload = () => {
-    allCategory().then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setCategories(data);
-      }
-    });
+    allCategory()
+      .then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          setCategories(data);
+        }
+      })
+      .catch();
   };
 
   useEffect(() => {
@@ -24,14 +26,16 @@ const ManageCategories = () => {
   }, []);
 
   const deleteThisCategory = (categoryId) => {
-    deleteCategory(user._id, token, categoryId).then((data) => {
-      // console.log(categoryId);
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        preload();
-      }
-    });
+    deleteCategory(user._id, token, categoryId)
+      .then((data) => {
+        // console.log(categoryId);
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          preload();
+        }
+      })
+      .catch();
   };
 
   return (

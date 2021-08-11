@@ -20,15 +20,17 @@ const PaymentB = ({ products, setReload = (f) => f, reload = undefined }) => {
   const token = authenticated() && authenticated().token;
 
   const getToken = (userId, token) => {
-    getMeToken(userId, token).then((info) => {
-      // console.log("INFO ", info);
-      if (info.error) {
-        setInfo({ ...info, error: info.error });
-      } else {
-        const clientToken = info.clientToken;
-        setInfo({ clientToken });
-      }
-    });
+    getMeToken(userId, token)
+      .then((info) => {
+        // console.log("INFO ", info);
+        if (info.error) {
+          setInfo({ ...info, error: info.error });
+        } else {
+          const clientToken = info.clientToken;
+          setInfo({ clientToken });
+        }
+      })
+      .catch();
   };
 
   const showBrainTreeDropIn = () => {
