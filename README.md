@@ -33,6 +33,19 @@ This website has following pages -
 
 - A **Signin/signout** where admin and user can login according to their right given to them.
 
-## Demo Video
+## Tools and Technology
 
-[![Watch the video](image.png)](https://youtu.be/vt5fpE0bzSY)
+- HTML
+- CSS
+- JS
+- ReactJs
+- MongoDB
+- ExpressJS
+- NodeJS
+- Stripe payment
+- Paypal payment
+
+
+## Demo Video
+### Click on the image to checkout the video 
+[![Watch the video](image.png)](https://www.youtube.com/watch?v=YGaC9ZS0D_0)
